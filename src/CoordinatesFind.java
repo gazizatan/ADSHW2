@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class CoordinatesFind {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -25,8 +25,6 @@ public class Main {
             }catch (Exception e){
                 System.out.println("ERROR!");
             }
-
         }
-
     }
 }
