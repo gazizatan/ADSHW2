@@ -1,34 +1,51 @@
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 
 public class SamsaStudents {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Give the number of students");
-        int student_num = sc.nextInt();
-        System.out.println("Give the number of samsa");
-        int samsa_num = sc.nextInt();
-        ArrayList<Integer> student = new ArrayList<>();
-        ArrayList<Integer> samsa = new ArrayList<>();
-        System.out.println("Give the number for students");
-        for (int i = 0; i < student_num; i++) {
-            int num = sc.nextInt();
-            student.add(num);
-        }
-        System.out.println("Give the number for samsa");
-        for (int i = 0; i < samsa_num; i++) {
-            int num = sc.nextInt();
-            samsa.add(num);
-        }
 
-        for (int i = 0; i < samsa.get(args.length); i++) {
-            for (int j = 0; j < student.get(args.length); j++) {
-                if (student.get(j) == samsa.get(i)) {
-                    student.remove(0);
-                    samsa.remove(0);
+    public int countStudents(int[] students, int[] sandwiches) {
+        Queue<Integer> studentsQueue = new LinkedList<>();
+        Queue<Integer> samsaQueue = new LinkedList<>();
+        for (int i = 0; i < sandwiches.length; i++) {
+            studentsQueue.add(students[i]);
+            samsaQueue.add(sandwiches[i]);
+        }
+        do {
+            if (!studentsQueue.isEmpty()) {
+                if (Objects.equals(studentsQueue.peek(), samsaQueue.peek())) {
+                    studentsQueue.poll();
+                    samsaQueue.poll();
+                } else {
+                    if (!studentsQueue.contains(samsaQueue.peek())) {
+                        break;
+                    }
+                    studentsQueue.add(studentsQueue.poll());
                 }
             }
+        } while (!studentsQueue.isEmpty());
+        return studentsQueue.size();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of students: ");
+        int n = sc.nextInt();
+        int[] students = new int[n];
+        System.out.println("Enter the preference of each student (0 for krugly samsa, 1 for kwadratnyi samsa): ");
+        for (int i = 0; i < n; i++) {
+            students[i] = sc.nextInt();
         }
-        System.out.println(student.get(args.length));
+        System.out.print("Enter the number of samsa: ");
+        int m = sc.nextInt();
+        int[] samsa = new int[m];
+        System.out.println("Enter the type of each samsa (0 or 1): ");
+        for (int i = 0; i < m; i++) {
+            samsa[i] = sc.nextInt();
+        }
+
+        SamsaStudents samsaStudents = new SamsaStudents();
+        System.out.println("Number of students who will not get a samsa: " + samsaStudents.countStudents(students, samsa));
     }
 }
